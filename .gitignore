@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 response.json
 twitch.config.json
+firebase.config.json
 
 ### Node template
 # Logs

@@ -45,7 +45,16 @@ export default {
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
 		// https://go.nuxtjs.dev/axios
-		'@nuxtjs/axios'
+		'@nuxtjs/axios',
+		[
+			'@nuxtjs/firebase',
+			{
+				config: require('./firebase.config.json'),
+				services: {
+					database: true
+				}
+			}
+		]
 	],
 
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -72,5 +81,10 @@ export default {
 
 	// Build Configuration: https://go.nuxtjs.dev/config-build
 	build: {
+	},
+
+	database: {
+		emulatorPort: 9000,
+		emulatorHost: 'localhost'
 	}
 }

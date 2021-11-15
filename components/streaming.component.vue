@@ -1,32 +1,32 @@
 <template>
-  <div class="mb-4 video-wrapper">
-    <iframe
-      class="video-player"
-      :src="generateUrl(config)"
-      frameborder="0"
-      scrolling="no"
+	<div class="mb-4 video-wrapper">
+		<iframe
+			class="video-player"
+			:src="generateUrl(config)"
+			frameborder="0"
+			scrolling="no"
 			layout="video-with-chat"
-    ></iframe>
-  </div>
+		/>
+	</div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "nuxt-property-decorator";
-import { TwitchPlayerConfig } from "~/utils/pacman.interface";
+import { Component, Vue } from 'nuxt-property-decorator'
+import { TwitchPlayerConfig } from '~/utils/pacman.interface'
 
 @Component
 export default class UserComponent extends Vue {
-  private config: TwitchPlayerConfig = {
-    channel: "faker",
-    parent: "localhost",
-    muted: true,
-  };
+	private config: TwitchPlayerConfig = {
+		channel: 'faker',
+		parent: 'localhost',
+		muted: true
+	}
 
-  created() {}
+	created () {}
 
-  private generateUrl(config: TwitchPlayerConfig): string {
-    return `https://player.twitch.tv/?channel=${config.channel}&parent=${config.parent}&muted=${config.muted}&font-size=small`;
-  }
+	private generateUrl (config: TwitchPlayerConfig): string {
+		return `https://player.twitch.tv/?channel=${config.channel}&parent=${config.parent}&muted=${config.muted}&font-size=small`
+	}
 }
 </script>
 
