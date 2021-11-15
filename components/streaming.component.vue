@@ -18,7 +18,7 @@ import { TwitchPlayerConfig } from '~/utils/pacman.interface'
 export default class UserComponent extends Vue {
 	private config: TwitchPlayerConfig = {
 		channel: 'faker',
-		parent: 'localhost',
+		parent: 'pacman-3f131.web.app',
 		muted: true
 	}
 
