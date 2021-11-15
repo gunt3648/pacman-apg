@@ -40,3 +40,9 @@ export interface TwitchAuth {
 	token_type?: string,
 	obtainment_timestamp?: any
 }
+
+export interface TwitchPlayerConfig {
+	channel: string,
+	parent: string,
+	muted: boolean
+}
