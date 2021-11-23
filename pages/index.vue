@@ -1,5 +1,5 @@
 <template>
-	<v-row class="py-6">
+	<v-row class="py-6" :v-if="config && playerConfig">
 		<v-col xl="12" md="12" sm="12" cols="12" class="pac-block pa-0">
 			<div class="pac-block--top">
 				<h1 class="display-inline">
@@ -13,10 +13,10 @@
 			</div>
 		</v-col>
 		<v-col xl="8" md="12" sm="12" cols="12" class="pa-0">
-			<streaming-component />
+			<streaming-component :player-config="playerConfig" />
 		</v-col>
-		<v-col v-if="user" cols="2">
-			<control-component />
+		<v-col v-if="user" cols="12">
+			<control-component :commands="commands" />
 		</v-col>
 	</v-row>
 </template>
@@ -31,17 +31,25 @@ import { $axios } from '~/utils/api'
 import {
 	TwitchPayload,
 	TwitchConfig,
-	TwitchAuth
+	TwitchAuth,
+	TwitchPlayerConfig
 } from '~/utils/pacman.interface'
 import { getTwitchConfig, isEmpty, mapToken } from '~/utils/pacman.function'
 
 @Component
 export default class Index extends Vue {
-	private config: TwitchConfig = getTwitchConfig()
-	private apiClient!: ApiClient
+	public config: TwitchConfig = null!
+	public playerConfig: TwitchPlayerConfig | any = null!
+	public commands: any = null!
 	public user: HelixPrivilegedUser = null!
 
+	private apiClient!: ApiClient
+
 	created () {
+		this.loadConfigAndCommands()
+	}
+
+	mounted () {
 		const urlParam: any = this.$route.query
 		const twitchToken: TwitchAuth = JSON.parse(
       localStorage.getItem('twitchToken')!
@@ -53,9 +61,6 @@ export default class Index extends Vue {
 			}
 			this.initApiClient(payload)
 		}
-	}
-
-	mounted () {
 		this.fetchUser()
 	}
 
@@ -95,6 +100,25 @@ export default class Index extends Vue {
 			},
 			twitchToken
 		)
+	}
+
+	private async loadConfigAndCommands () {
+		this.config = getTwitchConfig()
+		this.playerConfig = await this.getPlayerConfig()
+		this.commands = await this.getCommands()
+	}
+
+	private getPlayerConfig () {
+		const messageRef = this.$fire.database.ref('twitch-player')
+		return messageRef.get().then(async (snap: any) => await snap.val())
+	}
+
+	private getCommands () {
+		const messageRef = this.$fire.database.ref('commands-list')
+		return messageRef.get().then(async (snap: any) => {
+			const val = await snap.val()
+			return Object.keys(val).map(k => val[k])
+		})
 	}
 }
 </script>

@@ -1,25 +1,23 @@
 <template>
-	<div>
-		<v-btn color="error" block @click="doSomething">
-			Button
-		</v-btn>
-	</div>
+	<v-row :v-if="commands">
+		<v-col v-for="(item, index) in commands" :key="index" cols="3">
+			<v-btn color="error" block @click="doSomething(item)">
+				{{ item.move }}
+			</v-btn>
+		</v-col>
+	</v-row>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'nuxt-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class ControlComponent extends Vue {
-	async doSomething () {
+	@Prop({ required: true }) commands!: any
+
+	async doSomething (message: any) {
 		const messageRef = this.$fire.database.ref('commands')
-		try {
-			await messageRef.push({
-				message: 'Hello!'
-			})
-		} catch (e) {
-			alert(e)
-		}
+		await messageRef.push(message)
 	}
 }
 </script>
