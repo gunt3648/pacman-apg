@@ -25,3 +25,10 @@ export const isEmpty = (obj: any): boolean => {
 
   return obj === undefined || obj === null || JSON.stringify(obj) === JSON.stringify({});
 }
+
+export const getTimeInDifferentTZ = (tzString: string) => {
+  return new Date().toLocaleString("en-US", {
+    timeZone: tzString,
+    hour12: false
+  });
+}

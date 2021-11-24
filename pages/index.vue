@@ -16,7 +16,7 @@
 			<streaming-component :player-config="playerConfig" />
 		</v-col>
 		<v-col v-if="user" cols="12">
-			<control-component :commands="commands" />
+			<control-component :user-data="user" :commands="commands" />
 		</v-col>
 	</v-row>
 </template>
