@@ -30,9 +30,7 @@
 				</p>
 			</div>
 			<div v-else class="py-0 mt-sm">
-				<p>
-					Chat is disabled. Please log in.
-				</p>
+				<p>Chat is disabled. Please log in.</p>
 			</div>
 			<div class="py-0">
 				<v-text-field
@@ -49,6 +47,9 @@
 					@keyup.enter="sendMessage"
 					@keyup="checkCommandsMode"
 				/>
+			</div>
+			<div class="py-0 mt-6">
+				<control-component :user-data="userData" :commands="commands" />
 			</div>
 		</div>
 	</div>
@@ -68,6 +69,7 @@ import { ChatMessage } from '~/utils/pacman.interface'
 
 @Component
 export default class UserComponent extends Vue {
+	@Prop({ required: true }) commands!: any
 	@Prop() userData!: HelixPrivilegedUser
 	public rule = (value: string) => value.length <= 40
 	public chatMessage: string = ''
@@ -96,7 +98,11 @@ export default class UserComponent extends Vue {
 	public displayTimestamp (timestamp: string) {
 		const date = new Date(timestamp + ' UTC')
 		const today = new Date()
-		if (isSameDay(date, today)) { return getDisplayTime(date) } else if (isSameYear(date, today)) { return mapMonth(date.getMonth()) + ' ' + date.getDate() }
+		if (isSameDay(date, today)) {
+			return getDisplayTime(date)
+		} else if (isSameYear(date, today)) {
+			return mapMonth(date.getMonth()) + ' ' + date.getDate()
+		}
 		return 'n.d.'
 	}
 
@@ -115,7 +121,9 @@ export default class UserComponent extends Vue {
 
 	private scrollToBottom () {
 		const element = document.getElementById('msgContainer')
-		if (element) { element.scrollTop = element.scrollHeight }
+		if (element) {
+			element.scrollTop = element.scrollHeight
+		}
 	}
 }
 </script>

@@ -1,7 +1,19 @@
 <template>
 	<v-row v-if="commands">
-		<v-col v-for="(item, index) in commands" :key="index" cols="3">
-			<v-btn color="error" block @click="sendCommand(item)">
+		<v-col cols="12" class="py-0 pb-1">
+			<p class="ma-0">
+				Quick commands
+			</p>
+		</v-col>
+		<v-col v-for="(item, index) in commands" :key="index" cols="2" class="pa-0 ml-2">
+			<v-btn
+				v-if="index <= 5"
+				color="#7B1FA2"
+				block
+				x-small
+				class="cmd-button"
+				@click="sendCommand(item)"
+			>
 				{{ item.move }}
 			</v-btn>
 		</v-col>
@@ -30,5 +42,8 @@ export default class ControlComponent extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.cmd-button {
+	width: 100%;
+}
 </style>

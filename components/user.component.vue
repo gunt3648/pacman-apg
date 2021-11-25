@@ -11,7 +11,9 @@
 			</p>
 		</div>
 		<div v-else>
-			<p class="mb-0">Welcome! Please login to Twitch before sending commands.</p>
+			<p class="mb-0">
+				Welcome! Please login to Twitch before sending commands.
+			</p>
 			<a :href="authUrl">Connect to Twitch</a>
 		</div>
 	</div>

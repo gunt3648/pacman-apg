@@ -16,9 +16,6 @@
 					class="display-inline"
 				/>
 			</v-col>
-			<!-- <v-col v-if="user" cols="12">
-			<control-component :user-data="user" :commands="commands" />
-		</v-col> -->
 		</v-row>
 		<v-row class="pac-full--body">
 			<v-col xl="8" md="8" sm="12" cols="12" class="pa-0">
@@ -28,7 +25,7 @@
 				</div>
 			</v-col>
 			<v-col xl="4" md="4" sm="12" cols="12" class="pa-0">
-				<chat-component :user-data="user" />
+				<chat-component :user-data="user" :commands="commands" />
 			</v-col>
 		</v-row>
 	</div>
