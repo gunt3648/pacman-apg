@@ -46,3 +46,9 @@ export interface TwitchPlayerConfig {
 	parent: string,
 	muted: boolean
 }
+
+export interface ChatMessage {
+	message: string,
+	sender: string,
+	timestamp: string
+}

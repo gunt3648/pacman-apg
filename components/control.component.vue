@@ -1,5 +1,5 @@
 <template>
-	<v-row :v-if="commands">
+	<v-row v-if="commands">
 		<v-col v-for="(item, index) in commands" :key="index" cols="3">
 			<v-btn color="error" block @click="sendCommand(item)">
 				{{ item.move }}

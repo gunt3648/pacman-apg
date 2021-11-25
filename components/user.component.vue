@@ -1,13 +1,14 @@
 <template>
 	<div class="mb-4">
 		<div v-if="userData && userData.displayName">
-			<p>
+			<p class="mb-0">
 				Welcome!
 				<span class="purple--text text--lighten-3 font-weight-bold">{{
 					userData.displayName
 				}}</span>
+
+				<a href="#" class="user-signout">Sign out</a>
 			</p>
-			<a href="#">Sign out</a>
 		</div>
 		<div v-else>
 			<p>Welcome! Please login to Twitch before requesting control.</p>
@@ -38,4 +39,7 @@ export default class UserComponent extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.user-signout {
+	margin-left: 20px;
+}
 </style>

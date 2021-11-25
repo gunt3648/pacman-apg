@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-4 video-wrapper" :v-if="playerConfig">
+	<div v-if="playerConfig" class="video-wrapper">
 		<iframe
 			class="video-player"
 			:src="generateUrl(playerConfig)"

@@ -1,24 +1,37 @@
 <template>
-	<v-row class="py-6" :v-if="config && playerConfig">
-		<v-col xl="12" md="12" sm="12" cols="12" class="pac-block pa-0">
-			<div class="pac-block--top">
-				<h1 class="display-inline">
-					Ms. PACMAN
-				</h1>
+	<div class="pac-page">
+		<v-row v-if="config && playerConfig" class="pa-3">
+			<v-col xl="8" md="8" sm="8" cols="12" class="pac-block pa-0">
+				<div class="pac-block--top">
+					<h1 class="display-inline">
+						Ms. PACMAN
+					</h1>
+					<img src="../static/img/pacman-ghost.png" class="pac-img">
+				</div>
+			</v-col>
+			<v-col xl="4" md="4" sm="4" cols="12" class="pa-0">
 				<user-component
 					:user-data="user"
 					:twitch-config="config"
 					class="display-inline"
 				/>
-			</div>
-		</v-col>
-		<v-col xl="8" md="12" sm="12" cols="12" class="pa-0">
-			<streaming-component :player-config="playerConfig" />
-		</v-col>
-		<v-col v-if="user" cols="12">
+			</v-col>
+			<!-- <v-col v-if="user" cols="12">
 			<control-component :user-data="user" :commands="commands" />
-		</v-col>
-	</v-row>
+		</v-col> -->
+		</v-row>
+		<v-row class="pac-full--body">
+			<v-col xl="8" md="8" sm="12" cols="12" class="pa-0">
+				<streaming-component :player-config="playerConfig" />
+				<div class="pa-3">
+					<p>Will replace with some description</p>
+				</div>
+			</v-col>
+			<v-col xl="4" md="4" sm="12" cols="12" class="pa-0">
+				<chat-component :user-data="user" />
+			</v-col>
+		</v-row>
+	</div>
 </template>
 
 <script lang="ts">
@@ -52,7 +65,7 @@ export default class Index extends Vue {
 	mounted () {
 		const urlParam: any = this.$route.query
 		const twitchToken: TwitchAuth = JSON.parse(
-      localStorage.getItem('twitchToken')!
+			localStorage.getItem('twitchToken')!
 		)
 		if ((!isEmpty(urlParam) && urlParam.code) || !isEmpty(twitchToken)) {
 			const payload: TwitchPayload = {
@@ -71,7 +84,7 @@ export default class Index extends Vue {
 	private async initApiClient (twitchPayload: TwitchPayload) {
 		try {
 			let twitchToken: AccessToken = JSON.parse(
-        localStorage.getItem('twitchToken')!
+				localStorage.getItem('twitchToken')!
 			)
 			if (isEmpty(twitchToken)) {
 				const temp = await $axios.$post(
@@ -115,8 +128,8 @@ export default class Index extends Vue {
 
 	private getCommands () {
 		const messageRef = this.$fire.database.ref('commands-list')
-		return messageRef.get().then(async (snap: any) => {
-			const val = await snap.val()
+		return messageRef.get().then((snap: any) => {
+			const val = snap.val()
 			return Object.keys(val).map(k => val[k])
 		})
 	}
@@ -124,34 +137,37 @@ export default class Index extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.pac-full--body {
+	height: calc(100vh - 72px);
+	height: -moz-calc(100vh - 72px);
+	height: -webkit-calc(100vh - 72px);
+	overflow: hidden;
+}
+
+.pac-img {
+	position: absolute;
+	height: 48px;
+}
+
 .pac-block {
-  width: 100%;
-  height: 100%;
-  min-height: 7em;
-  white-space: nowrap;
-  position: relative;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	white-space: nowrap;
 
-  &--top,
-  &--bottom {
-    line-height: 1em;
-    position: absolute;
-  }
+	& h1 {
+		font-size: 3em;
+		line-height: 1em;
+	}
 
-  &--top {
-    top: 0;
-  }
+	.display-inline {
+		display: inline-block;
+	}
+}
 
-  &--bottom {
-    bottom: 0;
-  }
-
-  & h1 {
-    font-size: 7em;
-    line-height: 1em;
-  }
-
-  .display-inline {
-    display: inline-block;
-  }
+@media only screen and (max-width: 959px) {
+	.pac-page {
+		overflow: hidden;
+	}
 }
 </style>
