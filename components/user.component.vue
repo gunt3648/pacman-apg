@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-4">
+	<div>
 		<div v-if="userData && userData.displayName">
 			<p class="mb-0">
 				Welcome!
@@ -11,7 +11,7 @@
 			</p>
 		</div>
 		<div v-else>
-			<p>Welcome! Please login to Twitch before requesting control.</p>
+			<p class="mb-0">Welcome! Please login to Twitch before sending commands.</p>
 			<a :href="authUrl">Connect to Twitch</a>
 		</div>
 	</div>

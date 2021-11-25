@@ -29,6 +29,11 @@
 					}}</span>
 				</p>
 			</div>
+			<div v-else class="py-0 mt-sm">
+				<p>
+					Chat is disabled. Please log in.
+				</p>
+			</div>
 			<div class="py-0">
 				<v-text-field
 					v-model="chatMessage"
