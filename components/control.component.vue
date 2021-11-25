@@ -8,6 +8,7 @@
 		<v-col v-for="(item, index) in commands" :key="index" cols="2" class="pa-0 ml-2">
 			<v-btn
 				v-if="index <= 5"
+				:disabled="userData && userData.displayName"
 				color="#7B1FA2"
 				block
 				x-small
