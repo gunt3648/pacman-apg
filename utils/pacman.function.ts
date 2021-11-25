@@ -57,3 +57,12 @@ export const getDisplayTime = (date: Date) => {
 	const min = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	return hr + ":" + min
 }
+
+export const mapCommands = (cmd: string) => {
+	let msg = null;
+	if (cmd.startsWith('/')) msg = cmd.split('/')[1]
+	if (msg === 'up') return { move: 'up' }
+	else if (msg === 'down') return { move: 'down' }
+	else if (msg === 'left') return { move: 'left' }
+	else if (msg === 'right') return { move: 'right' }
+}

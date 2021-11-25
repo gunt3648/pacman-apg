@@ -63,6 +63,7 @@ import {
 	getTimeInDifferentTZ,
 	isSameDay,
 	isSameYear,
+	mapCommands,
 	mapMonth
 } from '~/utils/pacman.function'
 import { ChatMessage } from '~/utils/pacman.interface'
@@ -84,14 +85,28 @@ export default class UserComponent extends Vue {
 
 	public async sendMessage () {
 		if (this.chatMessage && this.chatMessage.length <= 40) {
-			const messageRef = this.$fire.database.ref('chats')
-			const message: ChatMessage = {
-				message: this.chatMessage,
-				sender: this.userData.displayName,
-				timestamp: getTimeInDifferentTZ('UTC')
+			if (this.chatMessage.startsWith('/')) {
+				const extractedCmd = mapCommands(this.chatMessage)
+				if (extractedCmd) {
+					const messageRef = this.$fire.database.ref('commands')
+					await messageRef.push({
+						...extractedCmd,
+						timestamp: getTimeInDifferentTZ('UTC'),
+						sender: this.userData.displayName
+					})
+				} else {
+					alert('Invalid command.')
+				}
+			} else {
+				const messageRef = this.$fire.database.ref('chats')
+				const message: ChatMessage = {
+					message: this.chatMessage,
+					sender: this.userData.displayName,
+					timestamp: getTimeInDifferentTZ('UTC')
+				}
+				await messageRef.push(message)
+				this.chatMessage = ''
 			}
-			await messageRef.push(message)
-			this.chatMessage = ''
 		}
 	}
 
