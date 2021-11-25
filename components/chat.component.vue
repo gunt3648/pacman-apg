@@ -97,6 +97,7 @@ export default class UserComponent extends Vue {
 				} else {
 					alert('Invalid command.')
 				}
+				this.chatMessage = ''
 			} else {
 				const messageRef = this.$fire.database.ref('chats')
 				const message: ChatMessage = {
