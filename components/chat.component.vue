@@ -6,7 +6,7 @@
 					{{ displayTimestamp(item.timestamp) }}
 				</span>
 				<span>
-					<span class="purple--text text--lighten-3 font-weight-bold">{{ item.sender }}:&nbsp;
+					<span class="font-weight-bold" :class="item.sender !== 'Ms Pacman' ? 'purple--text text--lighten-3': 'red--text'">{{ item.sender }}:&nbsp;
 					</span>
 					<span> {{ item.message }}</span>
 				</span>
