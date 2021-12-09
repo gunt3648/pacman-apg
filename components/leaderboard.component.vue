@@ -3,19 +3,33 @@
 		<p class="font-weight-bold">
 			Leaderboard
 		</p>
-		<div v-for="(item, index) in leaderboard" :key="'leader-'+index">
+		<div v-for="(item, index) in leaderboard" :key="'leader-' + index">
 			<p class="mb-0">
-				{{ `${index+1}: ${item.user} (${item.score})` }}
+				{{ `${index + 1}: ${item.user} (${item.score})` }}
 			</p>
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'nuxt-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class ControlComponent extends Vue {
-  @Prop({ required: true }) leaderboard!: any
+	public leaderboard: any = []
+
+	mounted () {
+		this.fetchLdBoard()
+	}
+
+	private async fetchLdBoard () {
+		const messageRef = this.$fire.database.ref('leaderboard-temp')
+		await messageRef.on('value', (snap: any) => {
+			const val = snap.val()
+			this.leaderboard = Object.keys(val)
+				.map(k => val[k])
+				.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
+		})
+	}
 }
 </script>

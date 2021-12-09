@@ -27,7 +27,7 @@
 						</div>
 					</v-col>
 					<v-col md="4">
-						<leaderboard-component :leaderboard="leaderboard" />
+						<leaderboard-component />
 					</v-col>
 				</v-row>
 			</v-col>
@@ -59,12 +59,11 @@ export default class Index extends Vue {
 	public playerConfig: TwitchPlayerConfig | any = null!
 	public user: HelixPrivilegedUser = null!
 	public commands: any = null!
-	public leaderboard: any = null!
 
 	private apiClient!: ApiClient
 
 	created () {
-		this.loadConfigCommandsAndLdBoard()
+		this.loadConfigAndCommands()
 	}
 
 	mounted () {
@@ -120,11 +119,10 @@ export default class Index extends Vue {
 		)
 	}
 
-	private async loadConfigCommandsAndLdBoard () {
+	private async loadConfigAndCommands () {
 		this.config = getTwitchConfig()
 		this.playerConfig = await this.getPlayerConfig()
 		this.commands = await this.getCommands()
-		this.leaderboard = await this.getLdBoard()
 	}
 
 	private getPlayerConfig () {
@@ -137,16 +135,6 @@ export default class Index extends Vue {
 		return messageRef.get().then((snap: any) => {
 			const val = snap.val()
 			return Object.keys(val).map(k => val[k])
-		})
-	}
-
-	private getLdBoard () {
-		const messageRef = this.$fire.database.ref('leaderboard-temp')
-		return messageRef.get().then((snap: any) => {
-			const val = snap.val()
-			return Object.keys(val)
-				.map(k => val[k])
-				.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
 		})
 	}
 }
