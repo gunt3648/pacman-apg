@@ -1,7 +1,7 @@
 <template>
 	<div class="chat-background">
 		<div v-if="chatHistory" id="msgContainer" class="chat-display px-4">
-			<p v-for="(item, index) in chatHistory" :key="index" class="chat-message">
+			<p v-for="(item, index) in chatHistory" :key="'chat-msg-'+index" class="chat-message">
 				<span class="grey--text text--lighten-3 chat-timestamp">
 					{{ displayTimestamp(item.timestamp) }}
 				</span>
@@ -149,7 +149,8 @@ export default class UserComponent extends Vue {
 	height: 100%;
 	position: relative;
 	border: #ce93d8 solid 2px;
-	border-radius: 3px;
+	border-right: none;
+	border-bottom: none;
 
 	.chat-display {
 		height: calc(100vh - 332px);

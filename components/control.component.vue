@@ -5,9 +5,9 @@
 				Quick commands
 			</p>
 		</v-col>
-		<v-col v-for="(item, index) in commands" :key="index" cols="2" class="pa-0 ml-2">
+		<v-col v-for="(item, index) in commands" :key="'btn'+index" cols="2" class="pa-0 ml-2">
 			<v-btn
-				v-if="index <= 5"
+				v-if="index < 10"
 				:disabled="!(userData && userData.displayName)"
 				color="#7B1FA2"
 				block
@@ -15,7 +15,8 @@
 				class="cmd-button"
 				@click="sendCommand(item)"
 			>
-				{{ item.move }}
+				<!-- replace id with display message -->
+				{{ item.id }}
 			</v-btn>
 		</v-col>
 	</v-row>
