@@ -19,10 +19,17 @@
 		</v-row>
 		<v-row class="pac-full--body">
 			<v-col xl="8" md="8" sm="12" cols="12" class="pa-0">
-				<streaming-component :player-config="playerConfig" />
-				<div class="pa-3">
-					<p>Will replace with some description</p>
-				</div>
+				<streaming-component :player-config="playerConfig" class="pac-border" />
+				<v-row>
+					<v-col md="8" cols="12">
+						<div class="pa-3">
+							<p>Will replace with some description</p>
+						</div>
+					</v-col>
+					<v-col md="4">
+						<leaderboard-component :leaderboard="leaderboard" />
+					</v-col>
+				</v-row>
 			</v-col>
 			<v-col xl="4" md="4" sm="12" cols="12" class="pa-0">
 				<chat-component :user-data="user" :commands="commands" />
@@ -50,19 +57,20 @@ import { getTwitchConfig, isEmpty, mapToken } from '~/utils/pacman.function'
 export default class Index extends Vue {
 	public config: TwitchConfig = null!
 	public playerConfig: TwitchPlayerConfig | any = null!
-	public commands: any = null!
 	public user: HelixPrivilegedUser = null!
+	public commands: any = null!
+	public leaderboard: any = null!
 
 	private apiClient!: ApiClient
 
 	created () {
-		this.loadConfigAndCommands()
+		this.loadConfigCommandsAndLdBoard()
 	}
 
 	mounted () {
 		const urlParam: any = this.$route.query
 		const twitchToken: TwitchAuth = JSON.parse(
-			localStorage.getItem('twitchToken')!
+      localStorage.getItem('twitchToken')!
 		)
 		if ((!isEmpty(urlParam) && urlParam.code) || !isEmpty(twitchToken)) {
 			const payload: TwitchPayload = {
@@ -81,7 +89,7 @@ export default class Index extends Vue {
 	private async initApiClient (twitchPayload: TwitchPayload) {
 		try {
 			let twitchToken: AccessToken = JSON.parse(
-				localStorage.getItem('twitchToken')!
+        localStorage.getItem('twitchToken')!
 			)
 			if (isEmpty(twitchToken)) {
 				const temp = await $axios.$post(
@@ -112,10 +120,11 @@ export default class Index extends Vue {
 		)
 	}
 
-	private async loadConfigAndCommands () {
+	private async loadConfigCommandsAndLdBoard () {
 		this.config = getTwitchConfig()
 		this.playerConfig = await this.getPlayerConfig()
 		this.commands = await this.getCommands()
+		this.leaderboard = await this.getLdBoard()
 	}
 
 	private getPlayerConfig () {
@@ -130,41 +139,56 @@ export default class Index extends Vue {
 			return Object.keys(val).map(k => val[k])
 		})
 	}
+
+	private getLdBoard () {
+		const messageRef = this.$fire.database.ref('leaderboard-temp')
+		return messageRef.get().then((snap: any) => {
+			const val = snap.val()
+			return Object.keys(val)
+				.map(k => val[k])
+				.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
+		})
+	}
 }
 </script>
 
 <style lang="scss" scoped>
 .pac-full--body {
-	height: calc(100vh - 72px);
-	height: -moz-calc(100vh - 72px);
-	height: -webkit-calc(100vh - 72px);
-	overflow: hidden;
+  height: calc(100vh - 72px);
+  height: -moz-calc(100vh - 72px);
+  height: -webkit-calc(100vh - 72px);
+  overflow: hidden;
+
+  .pac-border {
+    border-top: #ce93d8 solid 2px;
+    border-bottom: #ce93d8 solid 2px;
+  }
 }
 
 .pac-img {
-	position: absolute;
-	height: 48px;
+  position: absolute;
+  height: 48px;
 }
 
 .pac-block {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	white-space: nowrap;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
 
-	& h1 {
-		font-size: 3em;
-		line-height: 1em;
-	}
+  & h1 {
+    font-size: 3em;
+    line-height: 1em;
+  }
 
-	.display-inline {
-		display: inline-block;
-	}
+  .display-inline {
+    display: inline-block;
+  }
 }
 
 @media only screen and (max-width: 959px) {
-	.pac-page {
-		overflow: hidden;
-	}
+  .pac-page {
+    overflow: hidden;
+  }
 }
 </style>

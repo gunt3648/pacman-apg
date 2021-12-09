@@ -35,7 +35,7 @@ export const getTimeInDifferentTZ = (tzString: string) => {
 
 export const isSameDay = (target: Date, compare: Date) => {
 	return isSameMonth(target, compare) &&
-		target.getDay() === compare.getDay();
+		target.getDate() === compare.getDate();
 }
 
 export const isSameMonth = (target: Date, compare: Date) => {
