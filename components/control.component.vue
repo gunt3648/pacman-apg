@@ -15,8 +15,7 @@
 				class="cmd-button"
 				@click="sendCommand(item)"
 			>
-				<!-- replace id with display message -->
-				{{ item.id }}
+				{{ item.name }}
 			</v-btn>
 		</v-col>
 	</v-row>
@@ -47,5 +46,6 @@ export default class ControlComponent extends Vue {
 <style scoped>
 .cmd-button {
 	width: 100%;
+	margin-bottom: 4px;
 }
 </style>
