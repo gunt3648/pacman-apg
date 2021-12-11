@@ -70,6 +70,5 @@ export const mapCommands = (cmd: string) => {
 	else if (msg === 'superpellet') return {id: '7', name: 'supper pellet' }
 	else if (msg === 'killghosts') return {id: '8', name: 'kill ghosts' }
 	else if (msg === 'ignoreghosts') return {id: '9', name: 'ignore ghosts' }
-	else if (msg === 'slowdown') return {id: '10', name: 'slow down' }
 	
 }
