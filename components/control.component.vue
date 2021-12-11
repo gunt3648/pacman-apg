@@ -5,7 +5,7 @@
 				Quick commands
 			</p>
 		</v-col>
-		<v-col v-for="(item, index) in commands" :key="'btn'+index" cols="2" class="pa-0 ml-2">
+		<v-col v-for="(item, index) in commands" :key="'btn'+index" md="2" cols="5" class="pa-0 ml-2">
 			<v-btn
 				v-if="index < 10"
 				:disabled="!(userData && userData.displayName)"
