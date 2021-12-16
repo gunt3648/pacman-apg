@@ -69,7 +69,7 @@ export default class Index extends Vue {
 	mounted () {
 		const urlParam: any = this.$route.query
 		const twitchToken: TwitchAuth = JSON.parse(
-      localStorage.getItem('twitchToken')!
+			localStorage.getItem('twitchToken')!
 		)
 		if ((!isEmpty(urlParam) && urlParam.code) || !isEmpty(twitchToken)) {
 			const payload: TwitchPayload = {
@@ -88,7 +88,7 @@ export default class Index extends Vue {
 	private async initApiClient (twitchPayload: TwitchPayload) {
 		try {
 			let twitchToken: AccessToken = JSON.parse(
-        localStorage.getItem('twitchToken')!
+				localStorage.getItem('twitchToken')!
 			)
 			if (isEmpty(twitchToken)) {
 				const temp = await $axios.$post(
@@ -142,41 +142,39 @@ export default class Index extends Vue {
 
 <style lang="scss" scoped>
 .pac-full--body {
-  height: calc(100vh - 72px);
-  height: -moz-calc(100vh - 72px);
-  height: -webkit-calc(100vh - 72px);
-  overflow: hidden;
-
-  .pac-border {
-    border-top: #ce93d8 solid 2px;
-    border-bottom: #ce93d8 solid 2px;
-  }
+	.pac-border {
+		border-top: #ce93d8 solid 2px;
+		border-bottom: #ce93d8 solid 2px;
+	}
 }
 
 .pac-img {
-  position: absolute;
-  height: 48px;
+	position: absolute;
+	height: 48px;
 }
 
 .pac-block {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  white-space: nowrap;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	white-space: nowrap;
 
-  & h1 {
-    font-size: 3em;
-    line-height: 1em;
-  }
+	& h1 {
+		font-size: 3em;
+		line-height: 1em;
+	}
 
-  .display-inline {
-    display: inline-block;
-  }
+	.display-inline {
+		display: inline-block;
+	}
 }
 
-@media only screen and (max-width: 959px) {
-  .pac-page {
-    overflow: hidden;
-  }
+@media only screen and (min-width: 960px) {
+	.pac-full--body {
+		height: calc(100vh - 72px);
+		height: -moz-calc(100vh - 72px);
+		height: -webkit-calc(100vh - 72px);
+		overflow: hidden;
+	}
 }
 </style>

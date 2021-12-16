@@ -1,5 +1,8 @@
 <template>
 	<div class="chat-background">
+		<div class="chat-header px-4 py-2">
+			<h2>STREAM CHAT</h2>
+		</div>
 		<div v-if="chatHistory" id="msgContainer" class="chat-display px-4">
 			<p v-for="(item, index) in chatHistory" :key="'chat-msg-'+index" class="chat-message">
 				<span class="grey--text text--lighten-3 chat-timestamp">
@@ -153,12 +156,11 @@ export default class UserComponent extends Vue {
 	border-bottom: none;
 
 	.chat-display {
-		height: calc(100vh - 332px);
-		height: -moz-calc(100vh - 332px);
-		height: -webkit-calc(100vh - 332px);
+		height: calc(100vh - 374px);
+		height: -moz-calc(100vh - 374px);
+		height: -webkit-calc(100vh - 374px);
 		overflow-y: scroll;
 		overflow-x: hidden;
-		margin-top: 20px;
 		margin-bottom: 20px;
 	}
 
