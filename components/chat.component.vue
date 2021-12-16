@@ -12,7 +12,11 @@
 				/>
 			</div>
 		</div>
-		<div v-if="chatHistory" id="msgContainer" class="chat-display px-4">
+		<div
+			v-if="!toggleLdboard && chatHistory"
+			id="msgContainer"
+			class="chat-display px-4"
+		>
 			<p
 				v-for="(item, index) in chatHistory"
 				:key="'chat-msg-' + index"
@@ -37,6 +41,9 @@
 			<p class="black--text" hidden>
 				end
 			</p>
+		</div>
+		<div v-else class="chat-display px-4">
+			<leaderboard-component />
 		</div>
 		<div class="chat-input px-4 mb-4">
 			<div v-if="userData && userData.displayName" class="py-0 mt-sm">
@@ -101,6 +108,10 @@ export default class UserComponent extends Vue {
 	public chatCooldown: boolean = false
 	public commandsMode: boolean = false
 	public toggleLdboard: boolean = false
+
+	updated () {
+		this.scrollToBottom()
+	}
 
 	mounted () {
 		this.scrollToBottom()
