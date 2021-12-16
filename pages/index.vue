@@ -26,9 +26,6 @@
 							<p>Will replace with some description</p>
 						</div>
 					</v-col>
-					<v-col md="4">
-						<leaderboard-component />
-					</v-col>
 				</v-row>
 			</v-col>
 			<v-col xl="4" md="4" sm="12" cols="12" class="pa-0">

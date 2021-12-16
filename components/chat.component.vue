@@ -1,15 +1,35 @@
 <template>
 	<div class="chat-background">
 		<div class="chat-header px-4 py-2">
-			<h2>STREAM CHAT</h2>
+			<h2>{{ toggleLdboard ? 'LEADERBOARD' : 'STREAM CHAT' }}</h2>
+			<div class="chat-toggle-btn mx-4 my-3">
+				<v-switch
+					v-model="toggleLdboard"
+					color="purple lighten-3"
+					:label="`Leaderboard: ${toggleLdboard ? 'ON' : 'OFF'}`"
+					hide-details
+					class="ma-0"
+				/>
+			</div>
 		</div>
 		<div v-if="chatHistory" id="msgContainer" class="chat-display px-4">
-			<p v-for="(item, index) in chatHistory" :key="'chat-msg-'+index" class="chat-message">
+			<p
+				v-for="(item, index) in chatHistory"
+				:key="'chat-msg-' + index"
+				class="chat-message"
+			>
 				<span class="grey--text text--lighten-3 chat-timestamp">
 					{{ displayTimestamp(item.timestamp) }}
 				</span>
 				<span>
-					<span class="font-weight-bold" :class="item.sender !== 'Ms Pacman' ? 'purple--text text--lighten-3': 'red--text'">{{ item.sender }}:&nbsp;
+					<span
+						class="font-weight-bold"
+						:class="
+							item.sender !== 'Ms Pacman'
+								? 'purple--text text--lighten-3'
+								: 'red--text'
+						"
+					>{{ item.sender }}:&nbsp;
 					</span>
 					<span> {{ item.message }}</span>
 				</span>
@@ -80,6 +100,7 @@ export default class UserComponent extends Vue {
 	public chatHistory: ChatMessage[] = []
 	public chatCooldown: boolean = false
 	public commandsMode: boolean = false
+	public toggleLdboard: boolean = false
 
 	mounted () {
 		this.scrollToBottom()
@@ -155,6 +176,16 @@ export default class UserComponent extends Vue {
 	border-right: none;
 	border-bottom: none;
 
+	.chat-header {
+		position: relative;
+
+		.chat-toggle-btn {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
 	.chat-display {
 		height: calc(100vh - 374px);
 		height: -moz-calc(100vh - 374px);
@@ -180,6 +211,12 @@ export default class UserComponent extends Vue {
 	.chat-timestamp {
 		display: inline-block;
 		min-width: 50px;
+	}
+}
+
+@media only screen and (max-width: 1140px) {
+	.chat-header .chat-toggle-btn {
+		display: none;
 	}
 }
 
