@@ -5,18 +5,26 @@
 				Quick commands
 			</p>
 		</v-col>
-		<v-col v-for="(item, index) in commands" :key="'btn'+index" md="2" cols="5" class="pa-0 ml-2">
-			<v-btn
-				v-if="index < 10"
-				:disabled="!(userData && userData.displayName)"
-				color="#7B1FA2"
-				block
-				x-small
-				class="cmd-button"
-				@click="sendCommand(item)"
-			>
-				{{ item.name }}
-			</v-btn>
+		<v-col
+			v-for="(item, index) in commands"
+			:key="'btn' + index"
+			md="3"
+			cols="6"
+			class="pa-0"
+		>
+			<div class="cmd-inpadding">
+				<v-btn
+					v-if="index < 8"
+					:disabled="!(userData && userData.displayName)"
+					color="#7B1FA2"
+					block
+					x-small
+					class="cmd-button"
+					@click="sendCommand(item)"
+				>
+					{{ item.name }}
+				</v-btn>
+			</div>
 		</v-col>
 	</v-row>
 </template>
@@ -44,6 +52,11 @@ export default class ControlComponent extends Vue {
 </script>
 
 <style scoped>
+.cmd-inpadding {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
 .cmd-button {
 	width: 100%;
 	margin-bottom: 4px;

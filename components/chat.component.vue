@@ -1,12 +1,39 @@
 <template>
 	<div class="chat-background">
-		<div v-if="chatHistory" id="msgContainer" class="chat-display px-4">
-			<p v-for="(item, index) in chatHistory" :key="'chat-msg-'+index" class="chat-message">
+		<div class="chat-header px-4 py-2">
+			<h2>{{ toggleLdboard ? 'LEADERBOARD' : 'STREAM CHAT' }}</h2>
+			<div class="chat-toggle-btn mx-4 my-3">
+				<v-switch
+					v-model="toggleLdboard"
+					color="purple lighten-3"
+					:label="`Leaderboard: ${toggleLdboard ? 'ON' : 'OFF'}`"
+					hide-details
+					class="ma-0"
+				/>
+			</div>
+		</div>
+		<div
+			v-if="!toggleLdboard && chatHistory"
+			id="msgContainer"
+			class="chat-display px-4"
+		>
+			<p
+				v-for="(item, index) in chatHistory"
+				:key="'chat-msg-' + index"
+				class="chat-message"
+			>
 				<span class="grey--text text--lighten-3 chat-timestamp">
 					{{ displayTimestamp(item.timestamp) }}
 				</span>
 				<span>
-					<span class="font-weight-bold" :class="item.sender !== 'Ms Pacman' ? 'purple--text text--lighten-3': 'red--text'">{{ item.sender }}:&nbsp;
+					<span
+						class="font-weight-bold"
+						:class="
+							item.sender !== 'Ms Pacman'
+								? 'purple--text text--lighten-3'
+								: 'red--text'
+						"
+					>{{ item.sender }}:&nbsp;
 					</span>
 					<span> {{ item.message }}</span>
 				</span>
@@ -14,6 +41,9 @@
 			<p class="black--text" hidden>
 				end
 			</p>
+		</div>
+		<div v-else class="chat-display px-4">
+			<leaderboard-component />
 		</div>
 		<div class="chat-input px-4 mb-4">
 			<div v-if="userData && userData.displayName" class="py-0 mt-sm">
@@ -77,6 +107,11 @@ export default class UserComponent extends Vue {
 	public chatHistory: ChatMessage[] = []
 	public chatCooldown: boolean = false
 	public commandsMode: boolean = false
+	public toggleLdboard: boolean = false
+
+	updated () {
+		this.scrollToBottom()
+	}
 
 	mounted () {
 		this.scrollToBottom()
@@ -152,13 +187,22 @@ export default class UserComponent extends Vue {
 	border-right: none;
 	border-bottom: none;
 
+	.chat-header {
+		position: relative;
+
+		.chat-toggle-btn {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
 	.chat-display {
-		height: calc(100vh - 332px);
-		height: -moz-calc(100vh - 332px);
-		height: -webkit-calc(100vh - 332px);
+		height: calc(100vh - 374px);
+		height: -moz-calc(100vh - 374px);
+		height: -webkit-calc(100vh - 374px);
 		overflow-y: scroll;
 		overflow-x: hidden;
-		margin-top: 20px;
 		margin-bottom: 20px;
 	}
 
@@ -178,6 +222,12 @@ export default class UserComponent extends Vue {
 	.chat-timestamp {
 		display: inline-block;
 		min-width: 50px;
+	}
+}
+
+@media only screen and (max-width: 1140px) {
+	.chat-header .chat-toggle-btn {
+		display: none;
 	}
 }
 
