@@ -3,7 +3,7 @@
 		<v-col cols="12" class="py-0 pb-1">
 			<p class="ma-0">
 				Quick commands
-				<v-dialog v-model="dialog" width="600">
+				<v-dialog v-model="dialog" width="800">
 					<template #activator="{ on, attrs }">
 						<v-btn
 							class="ma-1 cmd-small-btn"
@@ -42,7 +42,11 @@
 							item-key="name"
 							height="360"
 							class="mx-6"
-						/>
+						>
+							<template #[`item.shortcut`]="{ item }">
+								<v-simple-checkbox v-model="item.shortcut" :disabled="!(userData && userData.displayName)" />
+							</template>
+						</v-data-table>
 						<v-card-actions>
 							<v-spacer />
 							<v-btn color="white" text @click="dialog = false">
@@ -54,7 +58,7 @@
 			</p>
 		</v-col>
 		<v-col
-			v-for="(item, index) in commands"
+			v-for="(item, index) in commands.filter((val) => filterCommands(val))"
 			:key="'btn' + index"
 			md="3"
 			cols="6"
@@ -96,12 +100,17 @@ export default class ControlComponent extends Vue {
 			sortable: false,
 			filterable: false,
 			value: 'description'
-		}
+		},
+		{ text: 'Quick commands', value: 'shortcut' }
 	]
 	public footers: any = {
 		'disable-items-per-page': true
 	}
 	public search: string = ''
+
+	filterCommands (val: any) {
+		return val?.shortcut
+	}
 
 	async sendCommand (message: any) {
 		const messageRef = this.$fire.database.ref('commands')
