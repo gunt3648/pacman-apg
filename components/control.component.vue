@@ -1,28 +1,27 @@
 <template>
 	<v-row v-if="commands">
-		<v-col cols="12" class="py-0 pb-1">
-			<p class="ma-0">
+		<v-col cols="12" class="pt-0 pb-2">
+			<p class="ma-0 cmd-header">
 				Quick commands
 				<v-dialog v-model="dialog" width="800">
 					<template #activator="{ on, attrs }">
 						<v-btn
-							class="ma-1 cmd-small-btn"
-							width="16"
-							height="16"
-							outlined
-							fab
+							class="my-1 cmd-setting-btn"
+							text
+							x-small
 							color="white"
 							v-bind="attrs"
 							v-on="on"
 						>
-							<v-icon size="14">
-								mdi-help
+							<v-icon left size="14" class="mx-0">
+								mdi-cog
 							</v-icon>
+							Setting
 						</v-btn>
 					</template>
 					<v-card>
 						<v-card-title class="text-h5">
-							Available commands
+							Commands Setting
 						</v-card-title>
 						<v-text-field
 							v-model="search"
@@ -43,8 +42,14 @@
 							height="360"
 							class="mx-6"
 						>
+							<template #[`item.name`]="{ item }">
+								{{ item.name.toUpperCase() }}
+							</template>
 							<template #[`item.shortcut`]="{ item }">
-								<v-simple-checkbox v-model="item.shortcut" :disabled="!(userData && userData.displayName)" />
+								<v-simple-checkbox
+									v-model="item.shortcut"
+									:disabled="!(userData && userData.displayName)"
+								/>
 							</template>
 						</v-data-table>
 						<v-card-actions>
@@ -103,9 +108,11 @@ export default class ControlComponent extends Vue {
 		},
 		{ text: 'Quick commands', value: 'shortcut' }
 	]
+
 	public footers: any = {
 		'disable-items-per-page': true
 	}
+
 	public search: string = ''
 
 	filterCommands (val: any) {
@@ -124,6 +131,15 @@ export default class ControlComponent extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.cmd-header {
+	position: relative;
+
+	.cmd-setting-btn {
+		position: absolute;
+		right: 0;
+	}
+}
+
 .cmd-inpadding {
 	padding-left: 4px;
 	padding-right: 4px;
@@ -132,5 +148,11 @@ export default class ControlComponent extends Vue {
 .cmd-button {
 	width: 100%;
 	margin-bottom: 4px;
+}
+
+@media only screen and (max-width: 959px) {
+	.cmd-setting-btn {
+		display: none;
+	}
 }
 </style>
