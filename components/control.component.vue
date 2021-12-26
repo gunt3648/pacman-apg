@@ -72,8 +72,8 @@
 			<div class="cmd-inpadding">
 				<v-btn
 					v-if="index < 8"
-					:disabled="!(userData && userData.displayName)"
-					color="#7B1FA2"
+					:disabled="!((userData && userData.displayName)&&item.available)"
+					:color="item.color"
 					block
 					x-small
 					class="cmd-button"
@@ -127,6 +127,9 @@ export default class ControlComponent extends Vue {
 			sender: this.userData.displayName
 		})
 	}
+	
+	
+	
 }
 </script>
 
