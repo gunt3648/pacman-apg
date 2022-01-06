@@ -38,7 +38,16 @@ export default class ControlComponent extends Vue {
 	private async fetchHighscore () {
 		const messageRef = this.$fire.database.ref('highscore')
 		await messageRef.on('value', (snap: any) => {
-			this.highscore = snap.val()
+			const val = snap.val()
+			const obj = Object.keys(val)
+				.map(k => val[k])
+				.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
+			console.log(obj)
+			if(obj.length==0){
+				this.highscore = {score:0}
+			}else{
+				this.highscore = obj[0]
+			}
 		})
 	}
 }
