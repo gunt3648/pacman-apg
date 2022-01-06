@@ -23,9 +23,15 @@
 				<v-row>
 					<v-col md="8" cols="12">
 						<div class="pa-3">
-							<p v-if="playingState.isplaying&&playingState.available">You are playing the game. Current score: <span class="purple--text text--lighten-3 font-weight-bold">{{playingState.score}}</span>.</p>
-							<p v-if="!playingState.isplaying&&playingState.available">The game has ended. Game score: <span class="purple--text text--lighten-3 font-weight-bold">{{playingState.score}}</span>. Restart to level 1 in a few seconds.</p>
-							<p v-if="!playingState.available"> Game playing is currently <span class="purple--text text--lighten-3 font-weight-bold">unavailable</span>.</p>
+							<p v-if="playingState.isplaying&&playingState.available">
+								You are playing the game. Current score: <span class="purple--text text--lighten-3 font-weight-bold">{{ playingState.score }}</span>.
+							</p>
+							<p v-if="!playingState.isplaying&&playingState.available">
+								The game has ended. Game score: <span class="purple--text text--lighten-3 font-weight-bold">{{ playingState.score }}</span>. Restart to level 1 in a few seconds.
+							</p>
+							<p v-if="!playingState.available">
+								Game playing is currently <span class="purple--text text--lighten-3 font-weight-bold">unavailable</span>.
+							</p>
 						</div>
 					</v-col>
 				</v-row>
@@ -132,17 +138,16 @@ export default class Index extends Vue {
 
 	private getCommands () {
 		const messageRef = this.$fire.database.ref('commands-list')
-		return messageRef.on('value',(snap: any) => {
+		return messageRef.on('value', (snap: any) => {
 			const val = snap.val()
 			this.commands = Object.keys(val).map(k => val[k])
 		})
 	}
-	
+
 	private getPlayingState () {
 		const messageRef = this.$fire.database.ref('currentscore')
-		return messageRef.on('value',(snap: any) => {
-			const val = snap.val()
-			this.playingState = val
+		return messageRef.on('value', (snap: any) => {
+			this.playingState = snap.val()
 		})
 	}
 }

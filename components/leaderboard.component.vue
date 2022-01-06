@@ -42,10 +42,9 @@ export default class ControlComponent extends Vue {
 			const obj = Object.keys(val)
 				.map(k => val[k])
 				.sort((a: any, b: any) => (a.score > b.score ? -1 : 1))
-			console.log(obj)
-			if(obj.length==0){
-				this.highscore = {score:0}
-			}else{
+			if (obj.length === 0) {
+				this.highscore = { score: 0 }
+			} else {
 				this.highscore = obj[0]
 			}
 		})

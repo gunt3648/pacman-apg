@@ -127,9 +127,6 @@ export default class ControlComponent extends Vue {
 			sender: this.userData.displayName
 		})
 	}
-	
-	
-	
 }
 </script>
 
