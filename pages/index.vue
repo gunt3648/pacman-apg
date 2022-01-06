@@ -23,7 +23,9 @@
 				<v-row>
 					<v-col md="8" cols="12">
 						<div class="pa-3">
-							<p>Will replace with some description</p>
+							<p v-if="playingState.isplaying&&playingState.available">You are playing the game. Current score: <span class="purple--text text--lighten-3 font-weight-bold">{{playingState.score}}</span>.</p>
+							<p v-if="!playingState.isplaying&&playingState.available">The game has ended. Game score: <span class="purple--text text--lighten-3 font-weight-bold">{{playingState.score}}</span>. Restart to level 1 in a few seconds.</p>
+							<p v-if="!playingState.available"> Game playing is currently <span class="purple--text text--lighten-3 font-weight-bold">unavailable</span>.</p>
 						</div>
 					</v-col>
 				</v-row>
@@ -56,7 +58,7 @@ export default class Index extends Vue {
 	public playerConfig: TwitchPlayerConfig | any = null!
 	public user: HelixPrivilegedUser = null!
 	public commands: any = null!
-
+	public playingState: any = null!
 	private apiClient!: ApiClient
 
 	created () {
@@ -119,7 +121,8 @@ export default class Index extends Vue {
 	private async loadConfigAndCommands () {
 		this.config = getTwitchConfig()
 		this.playerConfig = await this.getPlayerConfig()
-		this.commands = await this.getCommands()
+		await this.getCommands()
+		await this.getPlayingState()
 	}
 
 	private getPlayerConfig () {
@@ -129,9 +132,17 @@ export default class Index extends Vue {
 
 	private getCommands () {
 		const messageRef = this.$fire.database.ref('commands-list')
-		return messageRef.get().then((snap: any) => {
+		return messageRef.on('value',(snap: any) => {
 			const val = snap.val()
-			return Object.keys(val).map(k => val[k])
+			this.commands = Object.keys(val).map(k => val[k])
+		})
+	}
+	
+	private getPlayingState () {
+		const messageRef = this.$fire.database.ref('currentscore')
+		return messageRef.on('value',(snap: any) => {
+			const val = snap.val()
+			this.playingState = val
 		})
 	}
 }

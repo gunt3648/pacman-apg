@@ -94,3 +94,5 @@ sw.*
 *.swp
 
 *.cache
+
+*.bak
